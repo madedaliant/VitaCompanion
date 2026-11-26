@@ -559,6 +559,113 @@ static void handleInput(unsigned int pressed) {
 }
 
 /* ------------------------------------------------------------------------- */
+/* Data awal jika database kosong                                                                      */
+/* ------------------------------------------------------------------------- */
+
+static int seedDatabaseIfEmpty(void) {
+    int count = databaseGetAppCount();
+
+    /* Jika jumlah aplikasi tidak dapat dibaca */
+    if (count < 0) {
+        return -1;
+    }
+
+    /* Database sudah berisi data, jangan tambahkan lagi */
+    if (count > 0) {
+        return 0;
+    }
+
+    HomebrewApp apps[3];
+    memset(apps, 0, sizeof(apps));
+
+    /* Aplikasi 1: VitaDB Downloader */
+    snprintf(
+        apps[0].name,
+        sizeof(apps[0].name),
+        "VitaDB Downloader"
+    );
+
+    snprintf(
+        apps[0].version,
+        sizeof(apps[0].version),
+        "Unknown"
+    );
+
+    snprintf(
+        apps[0].developer,
+        sizeof(apps[0].developer),
+        "Rinnegatamante"
+    );
+
+    snprintf(
+        apps[0].category,
+        sizeof(apps[0].category),
+        "Homebrew Manager"
+    );
+
+    /* Aplikasi 2: VitaShell */
+    snprintf(
+        apps[1].name,
+        sizeof(apps[1].name),
+        "VitaShell"
+    );
+
+    snprintf(
+        apps[1].version,
+        sizeof(apps[1].version),
+        "Unknown"
+    );
+
+    snprintf(
+        apps[1].developer,
+        sizeof(apps[1].developer),
+        "TheFloW"
+    );
+
+    snprintf(
+        apps[1].category,
+        sizeof(apps[1].category),
+        "File Manager"
+    );
+
+    /* Aplikasi 3: Adrenaline */
+    snprintf(
+        apps[2].name,
+        sizeof(apps[2].name),
+        "Adrenaline"
+    );
+
+    snprintf(
+        apps[2].version,
+        sizeof(apps[2].version),
+        "Unknown"
+    );
+
+    snprintf(
+        apps[2].developer,
+        sizeof(apps[2].developer),
+        "TheFloW"
+    );
+
+    snprintf(
+        apps[2].category,
+        sizeof(apps[2].category),
+        "PSP Environment"
+    );
+
+    /* Masukkan aplikasi ke database */
+    for (int i = 0; i < 3; i++) {
+        if (databaseAddApp(&apps[i]) < 0) {
+            return -1;
+        }
+    }
+
+    /* Simpan data ke file JSON */
+    return databaseSave();
+}
+
+
+/* ------------------------------------------------------------------------- */
 /* Main                                                                      */
 /* ------------------------------------------------------------------------- */
 
@@ -585,10 +692,14 @@ int main(void) {
     memset(&pad, 0, sizeof(pad));
 
     /* databaseInit() is expected to return 0 when initialization succeeds. */
-    if (databaseInit() == 0) {
+    if (databaseInit() == 0 &&
+        seedDatabaseIfEmpty() == 0) {
+
         databaseReady = 1;
         currentPage = PAGE_HOME;
+
     } else {
+
         databaseReady = 0;
         currentPage = PAGE_DATABASE_ERROR;
     }
