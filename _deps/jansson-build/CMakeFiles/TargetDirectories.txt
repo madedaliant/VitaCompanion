@@ -1,0 +1,7 @@
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/jansson.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/edit_cache.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/rebuild_cache.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/list_install_components.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/install.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/install/local.dir
+C:/Projects/VitaCompanion/_deps/jansson-build/CMakeFiles/install/strip.dir

@@ -1,0 +1,8 @@
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/libjansson.a
+C:/Projects/VitaCompanion/deps/jansson-vita/include/jansson_config.h
+C:/Projects/VitaCompanion/deps/jansson-vita/include/jansson.h
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/pkgconfig/jansson.pc
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/cmake/jansson/janssonConfig.cmake
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/cmake/jansson/janssonConfigVersion.cmake
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/cmake/jansson/janssonTargets.cmake
+C:/Projects/VitaCompanion/deps/jansson-vita/lib/cmake/jansson/janssonTargets-release.cmake

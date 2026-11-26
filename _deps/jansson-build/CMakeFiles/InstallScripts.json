@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Projects/VitaCompanion/_deps/jansson-build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

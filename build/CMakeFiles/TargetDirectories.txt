@@ -1,0 +1,6 @@
+C:/Projects/VitaCompanion/build/CMakeFiles/VitaCompanion.dir
+C:/Projects/VitaCompanion/build/CMakeFiles/VitaCompanion-velf.dir
+C:/Projects/VitaCompanion/build/CMakeFiles/VitaCompanion.self-self.dir
+C:/Projects/VitaCompanion/build/CMakeFiles/VitaCompanion.vpk-vpk.dir
+C:/Projects/VitaCompanion/build/CMakeFiles/edit_cache.dir
+C:/Projects/VitaCompanion/build/CMakeFiles/rebuild_cache.dir

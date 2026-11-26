@@ -1,0 +1,28 @@
+CMakeFiles/jansson.dir/src/utf.c.obj: \
+ C:\Projects\VitaCompanion\_deps\jansson-2.15.1\src\utf.c \
+ C:\Projects\VitaCompanion\_deps\jansson-2.15.1\src\utf.h \
+ C:\Projects\VitaCompanion\_deps\jansson-build\private_include/jansson_private_config.h \
+ C:/vitasdk/lib/gcc/arm-vita-eabi/15.2.0/include/stddef.h \
+ C:/vitasdk/lib/gcc/arm-vita-eabi/15.2.0/include/stdint.h \
+ C:/vitasdk/arm-vita-eabi/include/stdint.h \
+ C:/vitasdk/arm-vita-eabi/include/machine/_default_types.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/features.h \
+ C:/vitasdk/arm-vita-eabi/include/_newlib_version.h \
+ C:/vitasdk/arm-vita-eabi/include/bits/posix_opt.h \
+ C:/vitasdk/lib/gcc/arm-vita-eabi/15.2.0/include/limits.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/_intsup.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/_stdint.h \
+ C:/vitasdk/arm-vita-eabi/include/string.h \
+ C:/vitasdk/arm-vita-eabi/include/_ansi.h \
+ C:/vitasdk/arm-vita-eabi/include/newlib.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/config.h \
+ C:/vitasdk/arm-vita-eabi/include/machine/ieeefp.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/reent.h \
+ C:/vitasdk/arm-vita-eabi/include/_ansi.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/_types.h \
+ C:/vitasdk/arm-vita-eabi/include/machine/_types.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/lock.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/cdefs.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/_locale.h \
+ C:/vitasdk/arm-vita-eabi/include/strings.h \
+ C:/vitasdk/arm-vita-eabi/include/sys/string.h

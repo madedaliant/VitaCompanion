@@ -1,0 +1,7 @@
+# Hashes of file build rules.
+a4b2724096a1b0bc1e50cb61c8e43a21 CMakeFiles/VitaCompanion-velf
+b499a98656a4a091daae2296b86de420 CMakeFiles/VitaCompanion.self-self
+55ec64056bf26476ac5befffa0d54e99 CMakeFiles/VitaCompanion.vpk-vpk
+f2b4395e4978ce95b28ac2ba10dbc37d VitaCompanion.self.out
+88ea49f0cdca338aa6f4bb59c3770665 VitaCompanion.vpk.out
+8d85cbb8f77b67e9cbcad23ccc906e86 VitaCompanion.vpk_param.sfo
