@@ -1,2 +1,2 @@
-this is just some ps vita app thing i make for a college assignment, just some simple crud app thing
+this is just some ps vita app thing i make for a college assignment, just some simple crud app thing.
 warning: vibecoded....
