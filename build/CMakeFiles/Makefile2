@@ -157,8 +157,8 @@ CMakeFiles/VitaCompanion-velf.dir/clean:
 # Target rules for target CMakeFiles/VitaCompanion.self-self.dir
 
 # All Build rule for target.
-CMakeFiles/VitaCompanion.self-self.dir/all: CMakeFiles/VitaCompanion.dir/all
 CMakeFiles/VitaCompanion.self-self.dir/all: CMakeFiles/VitaCompanion-velf.dir/all
+CMakeFiles/VitaCompanion.self-self.dir/all: CMakeFiles/VitaCompanion.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VitaCompanion.self-self.dir\build.make CMakeFiles/VitaCompanion.self-self.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VitaCompanion.self-self.dir\build.make CMakeFiles/VitaCompanion.self-self.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Projects\VitaCompanion\build\CMakeFiles --progress-num=5 "Built target VitaCompanion.self-self"
@@ -176,8 +176,8 @@ VitaCompanion.self-self: CMakeFiles/VitaCompanion.self-self.dir/rule
 .PHONY : VitaCompanion.self-self
 
 # codegen rule for target.
-CMakeFiles/VitaCompanion.self-self.dir/codegen: CMakeFiles/VitaCompanion.dir/codegen
 CMakeFiles/VitaCompanion.self-self.dir/codegen: CMakeFiles/VitaCompanion-velf.dir/codegen
+CMakeFiles/VitaCompanion.self-self.dir/codegen: CMakeFiles/VitaCompanion.dir/codegen
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VitaCompanion.self-self.dir\build.make CMakeFiles/VitaCompanion.self-self.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Projects\VitaCompanion\build\CMakeFiles --progress-num=5 "Finished codegen for target VitaCompanion.self-self"
 .PHONY : CMakeFiles/VitaCompanion.self-self.dir/codegen

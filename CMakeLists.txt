@@ -68,6 +68,9 @@ target_link_libraries(${PROJECT_NAME}
     ScePgf_stub
     SceLibKernel_stub
     m
+    # ime dependecies
+    SceAppUtil_stub
+    SceIme_stub
 )
 
 ## Create Vita files

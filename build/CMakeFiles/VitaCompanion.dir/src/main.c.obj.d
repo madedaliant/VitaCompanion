@@ -66,4 +66,12 @@ CMakeFiles/VitaCompanion.dir/src/main.c.obj: \
  C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/sysmem.h \
  C:/vitasdk/arm-vita-eabi/include/psp2/pgf.h \
  C:/vitasdk/arm-vita-eabi/include/psp2/pvf.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/apputil.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/common_dialog.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/kernel/clib.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/system_param.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2common/defs.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/ime_dialog.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/libime.h \
+ C:/vitasdk/arm-vita-eabi/include/psp2/sysmodule.h \
  C:\Projects\VitaCompanion\src\database.h

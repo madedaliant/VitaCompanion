@@ -64,8 +64,12 @@ CMakeFiles/VitaCompanion.dir/src/main.c.obj: C:/Projects/VitaCompanion/src/main.
   C:/vitasdk/arm-vita-eabi/include/machine/ieeefp.h \
   C:/vitasdk/arm-vita-eabi/include/machine/types.h \
   C:/vitasdk/arm-vita-eabi/include/newlib.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/apputil.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/common_dialog.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/ctrl.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/gxm.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/ime_dialog.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/clib.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/cpu.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/processmgr.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/sysmem.h \
@@ -82,10 +86,14 @@ CMakeFiles/VitaCompanion.dir/src/main.c.obj: C:/Projects/VitaCompanion/src/main.
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/signal.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/thread.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/vfp.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/libime.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/pgf.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/pvf.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/sysmodule.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2/system_param.h \
   C:/vitasdk/arm-vita-eabi/include/psp2/types.h \
   C:/vitasdk/arm-vita-eabi/include/psp2common/ctrl.h \
+  C:/vitasdk/arm-vita-eabi/include/psp2common/defs.h \
   C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/processmgr.h \
   C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/sysmem.h \
   C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/threadmgr.h \
@@ -130,9 +138,9 @@ C:/vitasdk/arm-vita-eabi/include/machine/_types.h:
 
 C:/vitasdk/arm-vita-eabi/include/alloca.h:
 
-C:/vitasdk/arm-vita-eabi/include/psp2common/types.h:
-
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/msgpipe.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2common/types.h:
 
 C:/vitasdk/arm-vita-eabi/include/_ansi.h:
 
@@ -156,17 +164,21 @@ C:/vitasdk/arm-vita-eabi/include/machine/endian.h:
 
 C:/vitasdk/arm-vita-eabi/include/machine/ieeefp.h:
 
+C:/vitasdk/arm-vita-eabi/include/machine/stdlib.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/common_dialog.h:
+
 C:/Projects/VitaCompanion/src/database.h:
 
 C:/vitasdk/lib/gcc/arm-vita-eabi/15.2.0/include/stdarg.h:
-
-C:/vitasdk/arm-vita-eabi/include/machine/stdlib.h:
 
 C:/vitasdk/arm-vita-eabi/include/machine/types.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/cond.h:
 
 C:/vitasdk/arm-vita-eabi/include/vitasdk/build_utils.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2common/defs.h:
 
 C:/vitasdk/arm-vita-eabi/include/newlib.h:
 
@@ -179,10 +191,6 @@ C:/vitasdk/arm-vita-eabi/include/psp2/io/dirent.h:
 C:/vitasdk/arm-vita-eabi/include/sys/_sigset.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/io/fcntl.h:
-
-C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/semaphore.h:
-
-C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/eventflag.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/io/stat.h:
 
@@ -197,6 +205,8 @@ C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/callback.h:
 C:/vitasdk/arm-vita-eabi/include/stdint.h:
 
 C:/vitasdk/arm-vita-eabi/include/stdlib.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/ime_dialog.h:
 
 C:/vitasdk/arm-vita-eabi/include/strings.h:
 
@@ -240,17 +250,25 @@ C:/vitasdk/arm-vita-eabi/include/sys/stdio.h:
 
 C:/vitasdk/arm-vita-eabi/include/sys/timespec.h:
 
+C:/vitasdk/arm-vita-eabi/include/psp2/apputil.h:
+
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/kernel/clib.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/gxm.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/cpu.h:
 
-C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/lw_cond.h:
-
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/processmgr.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/sysmem.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/semaphore.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/eventflag.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/lw_cond.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/lw_mutex.h:
 
@@ -262,9 +280,15 @@ C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/thread.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/vfp.h:
 
+C:/vitasdk/arm-vita-eabi/include/psp2/libime.h:
+
 C:/vitasdk/arm-vita-eabi/include/psp2/pgf.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2/pvf.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/sysmodule.h:
+
+C:/vitasdk/arm-vita-eabi/include/psp2/system_param.h:
 
 C:/vitasdk/arm-vita-eabi/include/psp2common/ctrl.h:
 

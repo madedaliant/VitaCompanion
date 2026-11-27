@@ -4,6 +4,10 @@
 #include <psp2/ctrl.h>
 #include <psp2/kernel/processmgr.h>
 #include <vita2d.h>
+#include <psp2/apputil.h>
+#include <psp2/common_dialog.h>
+#include <psp2/ime_dialog.h>
+#include <psp2/sysmodule.h>
 
 #include "database.h"
 
@@ -21,7 +25,7 @@
 #define COLOR_RED      RGBA8(235, 100, 100, 255)
 #define COLOR_BORDER   RGBA8(56, 76, 103, 255)
 
-#define HOME_COUNT 3
+#define HOME_COUNT 4
 #define LIST_VISIBLE 3
 
 typedef enum {
@@ -30,11 +34,13 @@ typedef enum {
     PAGE_APP_DETAIL,
     PAGE_RECORDS,
     PAGE_SETTINGS,
+    PAGE_ADD_APPLICATION,
     PAGE_DATABASE_ERROR
 } Page;
 
 static const char *homeMenu[HOME_COUNT] = {
     "Applications",
+    "Add Application",
     "Compatibility Records",
     "Settings"
 };
@@ -43,6 +49,12 @@ static Page currentPage = PAGE_HOME;
 static int homeSelected = 0;
 static int appSelected = 0;
 static int recordSelected = 0;
+
+/* Add Application form draft (not saved until Save is selected). */
+static HomebrewApp draftApp;
+static int formSelected = 0;
+static const int FORM_ITEM_COUNT = 6;
+static char formMessage[96] = "";
 
 /* Database initialization status */
 static int databaseReady = 0;
@@ -143,6 +155,186 @@ static unsigned int getStatusColor(const char *status) {
 }
 
 /* ------------------------------------------------------------------------- */
+/* Keyboard function thing                                                                      */
+/* ------------------------------------------------------------------------- */
+
+static int readImeText(
+    const SceWChar16 *title,
+    char *output,
+    size_t outputSize
+) {
+    if (output == NULL || outputSize == 0) {
+        return -1;
+    }
+
+    SceWChar16 input[SCE_IME_DIALOG_MAX_TEXT_LENGTH + 1] = {0};
+    SceImeDialogParam param;
+
+    sceImeDialogParamInit(&param);
+
+    param.supportedLanguages = SCE_IME_LANGUAGE_ENGLISH;
+    param.languagesForced = SCE_FALSE;
+    param.type = SCE_IME_TYPE_DEFAULT;
+    param.option = 0;
+
+    param.dialogMode = SCE_IME_DIALOG_DIALOG_MODE_WITH_CANCEL;
+    param.textBoxMode = SCE_IME_DIALOG_TEXTBOX_MODE_WITH_CLEAR;
+
+    param.title = title;
+    param.maxTextLength = SCE_IME_DIALOG_MAX_TEXT_LENGTH;
+    param.initialText = (SceWChar16 *)u"";
+    param.inputTextBuffer = input;
+
+    if (sceImeDialogInit(&param) < 0) {
+        return -1;
+    }
+
+    /* Update the Vita system keyboard while it is open. */
+    while (sceImeDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {
+        vita2d_common_dialog_update();
+        sceKernelDelayThread(16667);
+    }
+
+    if (sceImeDialogGetStatus() != SCE_COMMON_DIALOG_STATUS_FINISHED) {
+        sceImeDialogTerm();
+        return -1;
+    }
+
+    SceImeDialogResult result = {0};
+    sceImeDialogGetResult(&result);
+    sceImeDialogTerm();
+
+    /* User pressed Cancel. */
+    if (result.button != SCE_IME_DIALOG_BUTTON_ENTER) {
+        return 1;
+    }
+
+    /*
+     * Convert the IME UTF-16 text to UTF-8.
+     * The database fields use char arrays.
+     */
+    size_t out = 0;
+
+    for (size_t i = 0; input[i] != 0; i++) {
+        unsigned int cp = input[i];
+
+        /* Combine UTF-16 surrogate pair if present. */
+        if (cp >= 0xD800 && cp <= 0xDBFF &&
+            input[i + 1] >= 0xDC00 &&
+            input[i + 1] <= 0xDFFF) {
+
+            cp = 0x10000 +
+                 ((cp - 0xD800) << 10) +
+                 (input[i + 1] - 0xDC00);
+
+            i++;
+        }
+
+        char bytes[4];
+        size_t length;
+
+        if (cp <= 0x7F) {
+            bytes[0] = (char)cp;
+            length = 1;
+        } else if (cp <= 0x7FF) {
+            bytes[0] = 0xC0 | (cp >> 6);
+            bytes[1] = 0x80 | (cp & 0x3F);
+            length = 2;
+        } else if (cp <= 0xFFFF) {
+            bytes[0] = 0xE0 | (cp >> 12);
+            bytes[1] = 0x80 | ((cp >> 6) & 0x3F);
+            bytes[2] = 0x80 | (cp & 0x3F);
+            length = 3;
+        } else {
+            bytes[0] = 0xF0 | (cp >> 18);
+            bytes[1] = 0x80 | ((cp >> 12) & 0x3F);
+            bytes[2] = 0x80 | ((cp >> 6) & 0x3F);
+            bytes[3] = 0x80 | (cp & 0x3F);
+            length = 4;
+        }
+
+        if (out + length >= outputSize) {
+            break;
+        }
+
+        memcpy(output + out, bytes, length);
+        out += length;
+    }
+
+    output[out] = '\0';
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Add Application form */
+
+static void beginAddApplication(void) {
+    memset(&draftApp, 0, sizeof(draftApp));
+    formSelected = 0;
+    formMessage[0] = '\0';
+    currentPage = PAGE_ADD_APPLICATION;
+}
+
+static void editDraftField(void) {
+    int result = -1;
+
+    switch (formSelected) {
+        case 0:
+            result = readImeText(u"Application Name",
+                                 draftApp.name, sizeof(draftApp.name));
+            break;
+        case 1:
+            result = readImeText(u"Application Version",
+                                 draftApp.version, sizeof(draftApp.version));
+            break;
+        case 2:
+            result = readImeText(u"Developer",
+                                 draftApp.developer, sizeof(draftApp.developer));
+            break;
+        case 3:
+            result = readImeText(u"Category",
+                                 draftApp.category, sizeof(draftApp.category));
+            break;
+        default:
+            return;
+    }
+
+    if (result == 0) {
+        formMessage[0] = '\0';
+    }
+}
+
+static int saveDraftApplication(void) {
+    if (draftApp.name[0] == '\0') {
+        snprintf(formMessage, sizeof(formMessage),
+                 "Application name is required.");
+        return -1;
+    }
+
+    int newId = databaseAddApp(&draftApp);
+    if (newId < 0) {
+        snprintf(formMessage, sizeof(formMessage),
+                 "Could not add application to database.");
+        return -1;
+    }
+
+    if (databaseSave() != 0) {
+        databaseDeleteApp(newId);
+        databaseSave();
+        snprintf(formMessage, sizeof(formMessage),
+                 "Could not save database. Please try again.");
+        return -1;
+    }
+
+    int count = getAppCount();
+    if (count > 0) {
+        appSelected = count - 1;
+    }
+
+    formMessage[0] = '\0';
+    return 0;
+}
+
 /* Header and footer                                                         */
 /* ------------------------------------------------------------------------- */
 
@@ -215,14 +407,14 @@ static void drawHome(vita2d_pgf *font) {
     );
 
     for (int i = 0; i < HOME_COUNT; i++) {
-        int y = 170 + i * 100;
+        int y = 150 + i * 82;
         unsigned int bg =
             (i == homeSelected) ? COLOR_SELECTED : COLOR_PANEL;
 
-        vita2d_draw_rectangle(40, y, 880, 82, bg);
+        vita2d_draw_rectangle(40, y, 880, 70, bg);
 
         if (i == homeSelected) {
-            vita2d_draw_rectangle(40, y, 5, 82, COLOR_ACCENT);
+            vita2d_draw_rectangle(40, y, 5, 70, COLOR_ACCENT);
         }
 
         drawText(
@@ -351,6 +543,67 @@ static void drawAppDetail(vita2d_pgf *font) {
     drawFooter(font);
 }
 
+static void drawAddApplication(vita2d_pgf *font) {
+    drawHeader(font, "ADD APPLICATION");
+
+    drawText(font, 45, 145, COLOR_MUTED, 0.85f,
+             "APPLICATION INFORMATION");
+
+    const char *labels[4] = {
+        "Name", "Version", "Developer", "Category"
+    };
+    const char *values[4] = {
+        draftApp.name, draftApp.version,
+        draftApp.developer, draftApp.category
+    };
+
+    for (int i = 0; i < 4; i++) {
+        int y = 165 + i * 61;
+        unsigned int bg = (i == formSelected) ?
+                          COLOR_SELECTED : COLOR_PANEL;
+
+        vita2d_draw_rectangle(40, y, 880, 50, bg);
+        if (i == formSelected) {
+            vita2d_draw_rectangle(40, y, 5, 50, COLOR_ACCENT);
+        }
+
+        drawText(font, 65, y + 20, COLOR_MUTED, 0.75f, labels[i]);
+
+        const char *value = values[i][0] ? values[i] : "(Press O to enter)";
+        drawText(font, 300, y + 31, COLOR_WHITE, 0.85f, value);
+    }
+
+    int buttonY = 420;
+    unsigned int saveBg = (formSelected == 4) ?
+                          COLOR_SELECTED : COLOR_PANEL;
+    unsigned int cancelBg = (formSelected == 5) ?
+                            COLOR_SELECTED : COLOR_PANEL;
+
+    vita2d_draw_rectangle(40, buttonY, 430, 48, saveBg);
+    vita2d_draw_rectangle(490, buttonY, 430, 48, cancelBg);
+
+    if (formSelected == 4) {
+        vita2d_draw_rectangle(40, buttonY, 5, 48, COLOR_GREEN);
+    } else if (formSelected == 5) {
+        vita2d_draw_rectangle(490, buttonY, 5, 48, COLOR_ACCENT);
+    }
+
+    drawText(font, 65, buttonY + 30,
+             formSelected == 4 ? COLOR_GREEN : COLOR_WHITE,
+             0.9f, "Save Application");
+    drawText(font, 515, buttonY + 30, COLOR_WHITE,
+             0.9f, "Cancel");
+
+    if (formMessage[0] != '\0') {
+        drawText(font, 45, 490, COLOR_YELLOW, 0.75f, formMessage);
+    } else {
+        drawText(font, 45, 490, COLOR_MUTED, 0.7f,
+                 "Name is required. Other fields are optional.");
+    }
+
+    drawFooter(font);
+}
+
 static void drawRecords(vita2d_pgf *font) {
     drawHeader(font, "COMPATIBILITY RECORDS");
 
@@ -475,6 +728,9 @@ static void drawScreen(vita2d_pgf *font) {
         case PAGE_SETTINGS:
             drawSettings(font);
             break;
+        case PAGE_ADD_APPLICATION:
+            drawAddApplication(font);
+            break;
         case PAGE_DATABASE_ERROR:
             drawDatabaseError(font);
             break;
@@ -505,10 +761,16 @@ static void handleInput(unsigned int pressed) {
                 case 0:
                     currentPage = PAGE_APPLICATIONS;
                     break;
+
                 case 1:
+                    beginAddApplication();
+                    break;
+
+                case 2:
                     currentPage = PAGE_RECORDS;
                     break;
-                case 2:
+
+                case 3:
                     currentPage = PAGE_SETTINGS;
                     break;
             }
@@ -527,6 +789,31 @@ static void handleInput(unsigned int pressed) {
         if (pressed & SCE_CTRL_CIRCLE) {
             if (count > 0) {
                 currentPage = PAGE_APP_DETAIL;
+            }
+        }
+
+        if (pressed & SCE_CTRL_CROSS) {
+            currentPage = PAGE_HOME;
+        }
+    } else if (currentPage == PAGE_ADD_APPLICATION) {
+        if (pressed & SCE_CTRL_UP) {
+            formSelected = (formSelected + FORM_ITEM_COUNT - 1) %
+                          FORM_ITEM_COUNT;
+        }
+
+        if (pressed & SCE_CTRL_DOWN) {
+            formSelected = (formSelected + 1) % FORM_ITEM_COUNT;
+        }
+
+        if (pressed & SCE_CTRL_CIRCLE) {
+            if (formSelected <= 3) {
+                editDraftField();
+            } else if (formSelected == 4) {
+                if (saveDraftApplication() == 0) {
+                    currentPage = PAGE_APPLICATIONS;
+                }
+            } else {
+                currentPage = PAGE_HOME;
             }
         }
 
@@ -559,7 +846,7 @@ static void handleInput(unsigned int pressed) {
 }
 
 /* ------------------------------------------------------------------------- */
-/* Data awal jika database kosong                                                                      */
+/* Initial data if database is empty                                                                      */
 /* ------------------------------------------------------------------------- */
 
 static int seedDatabaseIfEmpty(void) {
@@ -674,6 +961,15 @@ int main(void) {
     unsigned int previousButtons = 0;
 
     sceCtrlSetSamplingMode(SCE_CTRL_MODE_DIGITAL);
+    SceAppUtilInitParam appUtilInit = {0};
+    SceAppUtilBootParam appUtilBoot = {0};
+
+    sceAppUtilInit(&appUtilInit, &appUtilBoot);
+
+    SceCommonDialogConfigParam dialogConfig = {0};
+    sceCommonDialogSetConfigParam(&dialogConfig);
+
+    sceSysmoduleLoadModule(SCE_SYSMODULE_IME);
 
     if (vita2d_init() < 0) {
         sceKernelExitProcess(1);

@@ -66,8 +66,12 @@ CMakeFiles/VitaCompanion.dir/src/main.c.obj
  C:/vitasdk/arm-vita-eabi/include/machine/ieeefp.h
  C:/vitasdk/arm-vita-eabi/include/machine/types.h
  C:/vitasdk/arm-vita-eabi/include/newlib.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/apputil.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/common_dialog.h
  C:/vitasdk/arm-vita-eabi/include/psp2/ctrl.h
  C:/vitasdk/arm-vita-eabi/include/psp2/gxm.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/ime_dialog.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/kernel/clib.h
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/cpu.h
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/processmgr.h
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/sysmem.h
@@ -84,10 +88,14 @@ CMakeFiles/VitaCompanion.dir/src/main.c.obj
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/signal.h
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/thread.h
  C:/vitasdk/arm-vita-eabi/include/psp2/kernel/threadmgr/vfp.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/libime.h
  C:/vitasdk/arm-vita-eabi/include/psp2/pgf.h
  C:/vitasdk/arm-vita-eabi/include/psp2/pvf.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/sysmodule.h
+ C:/vitasdk/arm-vita-eabi/include/psp2/system_param.h
  C:/vitasdk/arm-vita-eabi/include/psp2/types.h
  C:/vitasdk/arm-vita-eabi/include/psp2common/ctrl.h
+ C:/vitasdk/arm-vita-eabi/include/psp2common/defs.h
  C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/processmgr.h
  C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/sysmem.h
  C:/vitasdk/arm-vita-eabi/include/psp2common/kernel/threadmgr.h
